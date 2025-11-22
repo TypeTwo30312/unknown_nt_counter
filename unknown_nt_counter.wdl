@@ -6,16 +6,16 @@ task count_Ns {
     }
 
     command <<<
-        grep -v '^>' ~{fasta}\
+        grep -v '^>' ~{fasta} \
         | tr -d '\n' \
-        | grep -o 'N'\ 
+        | grep -o 'N' \ 
         | wc -l > n_count.txt
     >>>
 
     output {
     Int Ns = read_int("n_count.txt")
     String header = read_string("header.txt")
-  }
+    }
 }
 
 task split_fasta {
