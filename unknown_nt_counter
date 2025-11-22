@@ -1,4 +1,4 @@
-version 1.0
+version 1.1
 
 task count_Ns {
     input {
@@ -37,6 +37,24 @@ task split_fasta {
     }
 }
 
+task sum_int {
+
+  input {
+    Array[Int] ints
+  }
+
+  command <<<
+    printf "%s " ~{sep=' ' ints} \
+    | awk '{for (i=1; i<=NF; i++) s += $i} END {print s}' \
+    > total.txt
+  >>>
+
+  output {
+    Int total = read_int("total.txt")
+  }
+
+}
+
 workflow countNs_slow {
   input {
     File fasta
@@ -63,10 +81,10 @@ workflow countNs_fast {
   }
 
   # 3) Sum over all sequences
-  Int total_Ns = sum(count_Ns_per_seq.Ns)
+  call sum_ints { input: ints = count_Ns_per_seq.Ns }
 
   output {
-    Int total_unknown_Ns      = total_Ns
+    Int total_unknown_Ns      = sum_ints.total
     Array[String] sequence_headers  = count_Ns_per_seq.header
     Array[Int] per_sequence_Ns = count_Ns_per_seq.Ns
     Array[File] per_sequence_fastas = split_fasta.split_fastas
