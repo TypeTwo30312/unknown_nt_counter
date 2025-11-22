@@ -30,7 +30,7 @@ task split_fasta {
            # NR-1: sequence index starting at 1
            fname = sprintf("splits/seq_%04d.fasta", NR-1);
            print ">" $0 > fname
-         }' "~{fasta}"
+          }' "~{fasta}"
     >>>
     output {
         Array[File] split_fastas = glob("splits/seq_*.fasta")
@@ -38,7 +38,6 @@ task split_fasta {
 }
 
 task sum_ints {
-
   input {
     Array[Int] ints
   }
@@ -52,7 +51,6 @@ task sum_ints {
   output {
     Int total = read_int("total.txt")
   }
-
 }
 
 workflow countNs_slow {
