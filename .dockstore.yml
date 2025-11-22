@@ -1,8 +1,8 @@
 version: 1.2
 workflows:
-name: countNs_slow
-    subclass: WDL
-    primaryDescriptorPath:/unknown_nt_counter.git
-name: countNs_fast
-    subclass: WDL
-    primaryDescriptorPath:/unknown_nt_counter.git
+  - name: countNs_slow
+      subclass: WDL
+      primaryDescriptorPath:/unknown_nt_counter.git
+  - name: countNs_fast
+      subclass: WDL
+      primaryDescriptorPath:/unknown_nt_counter.git
