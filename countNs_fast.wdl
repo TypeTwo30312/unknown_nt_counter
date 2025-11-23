@@ -51,18 +51,6 @@ task sum_ints {
   }
 }
 
-workflow countNs_slow {
-  input {
-    File fasta
-  }
-
-  call count_Ns { input: fasta = fasta }
-
-  output {
-    Int total_unknown_Ns = count_Ns.Ns
-  }
-}
-
 workflow countNs_fast {
   input {
     File fasta
@@ -80,8 +68,8 @@ workflow countNs_fast {
   call sum_ints { input: ints = count_Ns_per_seq.Ns }
 
   output {
-    Int total_unknown_Ns      = sum_ints.total
-    Array[String] sequence_headers  = count_Ns_per_seq.header
+    Int total_unknown_Ns = sum_ints.total
+    Array[String] sequence_headers = count_Ns_per_seq.header
     Array[Int] per_sequence_Ns = count_Ns_per_seq.Ns
     Array[File] per_sequence_fastas = split_fasta.split_fastas
   }
