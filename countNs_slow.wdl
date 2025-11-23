@@ -15,8 +15,14 @@ task count_Ns {
     >>>
 
     output {
-    Int Ns = read_int("n_count.txt")
-    String header = read_string("header.txt")
+      Int Ns = read_int("n_count.txt")
+      String header = read_string("header.txt")
+    }
+
+    runtime {
+      docker: "ubuntu:22.04"
+      memory: "1 GB"
+      cpu: 1
     }
 }
 

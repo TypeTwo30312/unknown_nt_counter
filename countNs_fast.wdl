@@ -18,6 +18,12 @@ task count_Ns {
     Int Ns = read_int("n_count.txt")
     String header = read_string("header.txt")
     }
+
+    runtime {
+      docker: "ubuntu:22.04"
+      memory: "1 GB"
+      cpu: 1
+    }
 }
 
 task split_fasta {
@@ -30,6 +36,12 @@ task split_fasta {
     >>>
     output {
         Array[File] split_fastas = glob("seq_*.fa")
+    }
+
+    runtime {
+      docker: "ubuntu:22.04"
+      memory: "1 GB"
+      cpu: 1
     }
 }
 
@@ -48,6 +60,12 @@ task sum_ints {
 
   output {
     Int total = read_int("total.txt")
+  }
+
+  runtime {
+    docker: "ubuntu:22.04"
+    memory: "1 GB"
+    cpu: 1
   }
 }
 
