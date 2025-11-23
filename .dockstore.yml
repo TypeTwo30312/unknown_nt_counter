@@ -1,5 +1,8 @@
 version: 1.2
 workflows:
+  - name: troubleshoot
+    subclass: WDL
+    primaryDescriptorPath: /troubleshoot.wdl
   - name: countNs_slow
     subclass: WDL
     primaryDescriptorPath: /unknown_nt_counter.wdl
