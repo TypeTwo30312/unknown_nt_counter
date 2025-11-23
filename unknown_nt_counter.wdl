@@ -6,6 +6,8 @@ task count_Ns {
     }
 
     command <<<
+        grep '^>' ~{fasta} \
+        > header.txt
         grep -v '^>' ~{fasta} \
         | tr -d '\n' \
         | grep -o 'N' \ 
@@ -25,15 +27,10 @@ task split_fasta {
 
     command <<<
         mkdir -p splits
-        awk 'BEGIN { RS=">"; ORS="" }
-          NR>1 {
-           # NR-1: sequence index starting at 1
-           fname = sprintf("splits/seq_%04d.fasta", NR-1);
-           print ">" $0 > fname
-          }' "~{fasta}"
+        awk 'BEGIN{RS=">";FS="\n"} NR>1{fnme = sprintf("seq_%d.fa", ((NR - 1))); print ">" $0 > fnme; close(fnme);}' ~{fasta}
     >>>
     output {
-        Array[File] split_fastas = glob("splits/seq_*.fasta")
+        Array[File] split_fastas = glob("splits/seq_*.fa")
     }
 }
 
@@ -43,9 +40,11 @@ task sum_ints {
   }
 
   command <<<
-    printf "%s " ~{sep=' ' ints} \
-    | awk '{for (i=1; i<=NF; i++) s += $i} END {print s}' \
-    > total.txt
+    tot = 0
+    for i in ~{ints}; do:
+      tot = ((tot + i))
+    end
+    echo $tot > total.txt
   >>>
 
   output {
