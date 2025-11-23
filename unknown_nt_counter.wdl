@@ -26,11 +26,10 @@ task split_fasta {
     }
 
     command <<<
-        mkdir -p splits
         awk 'BEGIN{RS=">";FS="\n"} NR>1{fnme = sprintf("seq_%d.fa", ((NR - 1))); print ">" $0 > fnme; close(fnme);}' ~{fasta}
     >>>
     output {
-        Array[File] split_fastas = glob("splits/seq_*.fa")
+        Array[File] split_fastas = glob("seq_*.fa")
     }
 }
 
