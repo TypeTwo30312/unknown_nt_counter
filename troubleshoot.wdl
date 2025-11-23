@@ -1,26 +1,33 @@
 version 1.0
 
-task milk {
+task count_Ns {
+    input {
+        File fasta
+    }
 
     command <<<
-    echo "What a beautiful face \n
-I have found in this place \n
-That is circling all 'round the sun \n
-And when we meet on a cloud \n
-I'll be laughing out loud \n
-I'll be laughing with everyone I see \n
-Can't believe \n
-How strange it is to be anything at all" \
-    > aeroplane.txt
+        grep '^>' ~{fasta} \
+        > header.txt
+        grep -v '^>' ~{fasta} \
+        | tr -d '\n' \
+        | grep -o 'N' \ 
+        | wc -l > n_count.txt
     >>>
 
     output {
-        File aeroplane = read_string("aeroplane.txt")
+    Int Ns = read_int("n_count.txt")
+    String header = read_string("header.txt")
     }
-
 }
-workflow troubleshoot {
 
-    call milk {}
+workflow countNs_slow {
+  input {
+    File fasta
+  }
 
+  call count_Ns { input: fasta = fasta }
+
+  output {
+    Int total_unknown_Ns = count_Ns.Ns
+  }
 }
