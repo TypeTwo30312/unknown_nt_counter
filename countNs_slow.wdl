@@ -13,7 +13,7 @@ task count_Ns {
     >>>
 
     output {
-      Int Ns = read_int("n_count.txt")
+      File Ns = "n_count.txt"
     }
 
     runtime {
@@ -31,6 +31,6 @@ workflow countNs_slow {
   call count_Ns { input: fasta = fa }
 
   output {
-    Int total_unknown_Ns = count_Ns.Ns
+    File total_unknown_Ns = count_Ns.Ns
   }
 }
