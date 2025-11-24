@@ -6,8 +6,6 @@ task count_Ns {
     }
 
     command <<<
-        grep '^>' ~{fasta} \
-        > header.txt
         grep -v '^>' ~{fasta} \
         | tr -d '\n' \
         | grep -o 'N' \ 
@@ -16,7 +14,6 @@ task count_Ns {
 
     output {
       Int Ns = read_int("n_count.txt")
-      String header = read_string("header.txt")
     }
 
     runtime {
