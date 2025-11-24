@@ -25,10 +25,10 @@ task count_Ns {
 
 workflow countNs_slow {
   input {
-    File fasta
+    File fa
   }
 
-  call count_Ns { input: fasta = fasta }
+  call count_Ns { input: fasta = fa }
 
   output {
     Int total_unknown_Ns = count_Ns.Ns
