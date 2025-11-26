@@ -8,7 +8,7 @@ task count_Ns {
     command <<<
         grep -v '^>' ~{fasta} \
         | tr -d '\n' \
-        | grep -o 'N' \ 
+        | grep -o 'N' \
         | wc -l > n_count.txt
     >>>
 
